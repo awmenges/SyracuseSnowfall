@@ -164,7 +164,7 @@ export default function Dashboard() {
   const compData = RANKED.find(r => r.season === compare);
 
   return (
-    <div style={{
+    <div className="db-root" style={{
       fontFamily: "'Crimson Pro', Georgia, serif",
       background: "linear-gradient(175deg, #0a1520 0%, #08111c 50%, #0d1825 100%)",
       color: "#b0c8dc",
@@ -178,6 +178,18 @@ export default function Dashboard() {
         ::-webkit-scrollbar-thumb { background: rgba(74,122,158,0.3); border-radius: 4px; }
         *:focus { outline: none; }
         *:focus-visible { outline: none; }
+        @media (max-width: 768px) {
+          .db-root { padding: 16px 14px 32px !important; }
+          .main-title { font-size: 28px !important; letter-spacing: -0.5px !important; }
+          .stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+          .layout-grid { grid-template-columns: 1fr !important; }
+          .chart-hdr { flex-wrap: wrap !important; gap: 6px !important; }
+        }
+        @media (max-width: 480px) {
+          .db-root { padding: 12px 10px 24px !important; }
+          .main-title { font-size: 22px !important; letter-spacing: 0 !important; }
+          .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+        }
       `}</style>
 
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -189,7 +201,7 @@ export default function Dashboard() {
             textTransform: "uppercase", letterSpacing: "3px", color: "#3a6080",
             margin: "0 0 8px 1px",
           }}>Syracuse Hancock Intl Airport</p>
-          <h1 style={{ fontSize: 42, fontWeight: 300, margin: 0, color: "#e4f0fa", letterSpacing: "-1px", lineHeight: 1.05 }}>
+          <h1 className="main-title" style={{ fontSize: 42, fontWeight: 300, margin: 0, color: "#e4f0fa", letterSpacing: "-1px", lineHeight: 1.05 }}>
             88 Winters of Syracuse Snowfall
           </h1>
           <p style={{ fontFamily: "'Outfit'", fontSize: 12, color: "#3a6080", margin: "8px 0 0 1px", fontWeight: 400 }}>
@@ -198,7 +210,7 @@ export default function Dashboard() {
         </div>
 
         {/* ═══ STAT CARDS ═══ */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(0, 1fr))", gap: 10, marginBottom: 24, alignItems: "start" }}>
+        <div className="stat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(0, 1fr))", gap: 10, marginBottom: 24, alignItems: "start" }}>
           {[
             { label: "Current Season", value: "142.8\"", sub: "2025–26", hl: true },
             { label: "All-Time Rank", value: `#${CURRENT_RANK}`, sub: `of ${VALID.length} seasons`, hl: true },
@@ -224,7 +236,7 @@ export default function Dashboard() {
           border: "1px solid rgba(74,122,158,0.22)",
           borderRadius: 10, padding: "20px 14px 14px", marginBottom: 18,
         }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "0 6px", marginBottom: 14 }}>
+          <div className="chart-hdr" style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "0 6px", marginBottom: 14 }}>
             <h2 style={{ fontFamily: "'Outfit'", fontSize: 15, fontWeight: 600, margin: 0, color: "#7aaccc" }}>Total Snowfall by Season</h2>
             <p style={{ fontFamily: "'Outfit'", fontSize: 11, color: "#4a7a9e", margin: 0 }}>Click any bar to compare with 2025-26 below</p>
           </div>
@@ -255,7 +267,7 @@ export default function Dashboard() {
         </div>
 
         {/* ═══ COMPARISON ROW ═══ */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 14, marginBottom: 14 }}>
+        <div className="layout-grid" style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 14, marginBottom: 14 }}>
 
           {/* Cumulative Chart */}
           <div style={{
@@ -263,7 +275,7 @@ export default function Dashboard() {
             border: "1px solid rgba(74,122,158,0.22)",
             borderRadius: 10, padding: "20px 14px 14px",
           }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "0 0 2px 6px" }}>
+            <div className="chart-hdr" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "0 0 2px 6px" }}>
               <h2 style={{ fontFamily: "'Outfit'", fontSize: 15, fontWeight: 600, margin: 0, color: "#7aaccc" }}>
                 Season Pace — Cumulative Snowfall
               </h2>
@@ -383,7 +395,7 @@ export default function Dashboard() {
         </div>
 
         {/* ═══ BOTTOM ROW ═══ */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 14 }}>
+        <div className="layout-grid" style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 14 }}>
 
           {/* Monthly Comparison */}
           <div style={{
