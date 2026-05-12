@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>88 Winters of Syracuse Snowfall</title>
+
+  <!--
+    Google Fonts: two typefaces that match the React version.
+    "Outfit"      — clean, geometric sans-serif used for labels, numbers, UI text
+    "Crimson Pro" — elegant serif used for body / headline weight contrasts
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="db-root">
+    <div class="inner">
+
+      <!-- ══════════════════════════════════════════
+           HEADER
+           ══════════════════════════════════════════ -->
+      <div class="header-section">
+        <div class="header-inner">
+          <div class="header-text">
+            <p class="header-kicker">Syracuse Hancock Intl Airport</p>
+            <h1 class="main-title">88 Winters of Syracuse Snowfall</h1>
+            <p class="header-sub">
+              NOAA Station USW00014771 &middot; Season = July–June &middot; 1938 to present
+            </p>
+          </div>
+          <div class="header-buttons">
+            <input type="file" id="csv-input" accept=".csv" style="display:none" />
+            <button class="dash-btn" id="upload-btn">&#8679; Upload CSV</button>
+            <button class="dash-btn" id="download-btn">&#8681; Download CSV</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════
+           STAT CARDS
+           Five summary numbers at the top.
+           JavaScript fills these in via renderStatCards().
+           ══════════════════════════════════════════ -->
+      <div class="stat-grid" id="stat-grid"></div>
+
+      <!-- ══════════════════════════════════════════
+           BAR CHART — Total Snowfall by Season
+           ══════════════════════════════════════════ -->
+      <div class="chart-card" style="margin-bottom:18px">
+        <div class="chart-header">
+          <h2 class="chart-title">Total Snowfall by Season</h2>
+          <p class="chart-hint">Click any bar to compare with the current season below</p>
+        </div>
+
+        <!-- Error message shown if the uploaded CSV is invalid -->
+        <div id="upload-error" class="upload-error" style="display:none"></div>
+
+        <!--
+          Chart.js draws onto a <canvas> element.
+          The wrapping <div> with a fixed height is required because
+          Chart.js needs a parent with a known size to be responsive.
+        -->
+        <div class="chart-wrap" style="height:240px">
+          <canvas id="bar-chart"></canvas>
+        </div>
+
+        <!-- Color legend below the bar chart -->
+        <div class="chart-legend" id="bar-legend"></div>
+      </div>
+
+      <!-- ══════════════════════════════════════════
+           COMPARISON ROW
+           Left: cumulative line chart  |  Right: top-20 rankings
+           ══════════════════════════════════════════ -->
+      <div class="layout-grid">
+
+        <!-- Cumulative Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h2 class="chart-title">Season Pace — Cumulative Snowfall</h2>
+            <!--
+              Toggle between two views:
+              "Compare" — current season vs. one selected comparison season
+              "All Seasons" — all 85 valid seasons layered as faint lines
+            -->
+            <div class="toggle-group">
+              <button class="toggle-btn active" id="btn-compare">Compare</button>
+              <button class="toggle-btn" id="btn-all">All Seasons</button>
+            </div>
+          </div>
+          <!-- Subtitle text changes depending on the selected mode -->
+          <p class="chart-subtitle" id="cum-subtitle"></p>
+          <div class="chart-wrap" style="height:270px">
+            <canvas id="cum-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- All-Time Top 20 Rankings list -->
+        <div class="chart-card rankings-card">
+          <h2 class="chart-title" style="margin-bottom:10px">All-Time Top 20</h2>
+          <!--
+            Each row is a clickable item — clicking it sets that season
+            as the comparison season and updates all charts.
+          -->
+          <div class="rankings-list" id="rankings-list"></div>
+        </div>
+
+      </div><!-- end layout-grid -->
+
+      <!-- ══════════════════════════════════════════
+           BOTTOM ROW
+           Left: monthly grouped bars  |  Right: top single-day records
+           ══════════════════════════════════════════ -->
+      <div class="layout-grid" style="margin-top:14px">
+
+        <!-- Month-by-Month Breakdown -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h2 class="chart-title">Month-by-Month Breakdown</h2>
+          </div>
+          <p class="chart-subtitle" id="monthly-subtitle"></p>
+          <div class="chart-wrap" style="height:250px">
+            <canvas id="monthly-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Biggest Single Days -->
+        <div class="chart-card">
+          <h2 class="chart-title">Biggest Single Days</h2>
+          <p class="chart-kicker">88-year record</p>
+          <div id="big-days-list"></div>
+        </div>
+
+      </div><!-- end layout-grid -->
+
+      <!-- ══════════════════════════════════════════
+           FOOTER
+           ══════════════════════════════════════════ -->
+      <p class="footer-text">
+        Source: NOAA National Centers for Environmental Information &middot;
+        Updated weekly via automated pipeline &middot;
+        3 seasons excluded due to missing data
+      </p>
+
+    </div><!-- end .inner -->
+  </div><!-- end .db-root -->
+
+  <!--
+    Chart.js loaded from a CDN (Content Delivery Network).
+    This is a URL that serves the library file from Cloudflare's servers.
+    No install required — the browser downloads it automatically.
+    Version 4.4.4 is a recent stable release.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+  <!-- Our application logic -->
+  <script src="script.js"></script>
+
+</body>
+</html>
